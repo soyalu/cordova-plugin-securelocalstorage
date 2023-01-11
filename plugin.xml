@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <plugin xmlns="http://www.phonegap.com/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android" 
-        id="nl-afas-cordova-plugin-securelocalstorage" version="0.1.18">
+        id="@soyalu/cordova-plugin-securelocalstorage" version="0.1.21">
     <name>Secure LocalStorage</name>
     <description>Secure localStorage. This plugin will store local data encrypted using the IOS keychain or the Android keystore. Use it to store temporary sensitive data which has to survive an app exit/shutdown.</description>
     <license>MIT</license>
 
-    <dependency
-      id="es6-promise-plugin"
-      url="https://github.com/vstirbu/PromisesPlugin.git">
-    </dependency>
-  
+    <dependency id="es6-promise-plugin" version=">=4.1.0" />
+
     <engines>
         <engine name="cordova" version=">=3.0.0" />
     </engines>
@@ -20,10 +17,10 @@
 
     <!-- Android -->
     <platform name="android">
-        <source-file src="src/android/nl/afas/cordova/plugin/secureLocalStorage/SecureLocalStorage.java" target-dir="src/nl/afas/cordova/plugin/secureLocalStorage" />
+        <source-file src="src/android/com/soyalu/cordova/secureLocalStorage/SecureLocalStorage.java" target-dir="src/com/soyalu/cordova/secureLocalStorage" />
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="SecureLocalStorage">
-                <param name="android-package" value="nl.afas.cordova.plugin.secureLocalStorage.SecureLocalStorage" />
+                <param name="android-package" value="com.soyalu.cordova.secureLocalStorage.SecureLocalStorage" />
             </feature>
         </config-file>
         <config-file target="AndroidManifest.xml" parent="/*">

@@ -1,5 +1,14 @@
 Secure localStorage for Cordova
 ==========================
+forked from [dickverweij/nl-afas-cordova-plugin-securelocalstorage](https://github.com/dickverweij/nl-afas-cordova-plugin-securelocalstorage)
+
+update
+-------------
+1. resolve the error report of iOS: Couldn't add the Keychain Item
+2. don't clear keychain data on next installation,  I need the uuid to be unique at all times
+
+Description
+-------------
 This plugin will store local data encrypted using the IOS keychain or the Android keystore.
 
 ANDROID: The local storage will have an expiration date of 3 years if left untouched. If the encrypted file is invalid,
@@ -17,17 +26,17 @@ Requirements
 
     Installation
 -------------
-    cordova plugin add nl-afas-cordova-plugin-securelocalstorage
+    cordova plugin add @soyalu/cordova-plugin-securelocalstorage
 
 Usage
 ------
-    
+
     cordova.plugins.SecureLocalStorage.setItem("key" , "value");
-
+    
     cordova.plugins.SecureLocalStorage.getItem("key").then(function (value){...})
-
+    
     cordova.plugins.SecureLocalStorage.removeItem("key");
-
+    
     cordova.plugins.SecureLocalStorage.clear();
 
 
