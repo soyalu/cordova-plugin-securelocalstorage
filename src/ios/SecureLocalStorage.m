@@ -27,11 +27,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #import <QuartzCore/QuartzCore.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
+NSString *identifier = @"com.guochuang.jswzw";
+
 @implementation SecureLocalStorage
 
 - (void) writeToSecureStorage:(NSMutableDictionary*)dict{
-
-    KeychainItemWrapper * keychain = [[KeychainItemWrapper alloc] initWithIdentifier:@"nl.afas.cordova.plugin.secureLocalStorage" accessGroup:nil];
+    KeychainItemWrapper * keychain = [[KeychainItemWrapper alloc] initWithIdentifier:identifier accessGroup:nil];
     NSError *error;
     NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&error];
     NSString *jsonString = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding]; 
@@ -43,7 +44,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 - (NSMutableDictionary *) readFromSecureStorage {
 
     NSMutableDictionary * dict = nil;
-    KeychainItemWrapper * keychain = [[KeychainItemWrapper alloc] initWithIdentifier:@"nl.afas.cordova.plugin.secureLocalStorage" accessGroup:nil];    
+    KeychainItemWrapper * keychain = [[KeychainItemWrapper alloc] initWithIdentifier:identifier accessGroup:nil];
     NSError *error;
     @try{
         NSData *json = [keychain objectForKey:(__bridge id)(kSecValueData)];
@@ -96,6 +97,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			[dict setValue:command.arguments[1] forKey:command.arguments[0]];
 
 			[self writeToSecureStorage:dict];
+            
 			CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
             [pluginResult setKeepCallback: [NSNumber numberWithBool:NO]];
             [self.commandDelegate sendPluginResult:pluginResult callbackId: command.callbackId];
@@ -149,11 +151,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 		
 		NSMutableDictionary * dict = [self readFromSecureStorage];
 
-		if (![[NSUserDefaults standardUserDefaults] objectForKey:@"FirstRunSecureLocalStorage"]) {				
-			
+		if (![[NSUserDefaults standardUserDefaults] objectForKey:@"FirstRunSecureLocalStorage"]) {
 			if (dict != nil) {
 				if ([[dict valueForKey:@"MustBeDeletedByNextInstall"] isEqualToString: @"1"]) {
-				
+
 					dict = [NSMutableDictionary new];
 					[self writeToSecureStorage:dict];
 				}
@@ -167,11 +168,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 			dict = [NSMutableDictionary new];
 			[self writeToSecureStorage:dict];
 		}
-		if (![[dict valueForKey:@"MustBeDeletedByNextInstall"] isEqualToString: @"1"]) {
-			[dict setValue:@"1" forKey:@"MustBeDeletedByNextInstall"];
-			[self writeToSecureStorage:dict];
-		}
-				
+        
 		CDVPluginResult * pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
 		[pluginResult setKeepCallback: [NSNumber numberWithBool:NO]];
 		
